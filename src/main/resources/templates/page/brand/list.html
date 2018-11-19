@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:include="include/css-head :: css-head">
+</head>
+<style>
+	textarea{
+		width:100%;
+		height:100px;
+	}
+	
+.file {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+
+.chk_1{
+    display: none;
+}
+.chk_1 + label {
+	background-color: #FFF;
+	border: 1px solid #C1CACA;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+	padding: 9px;
+	border-radius: 5px;
+	display: inline-block;
+	position: relative;
+	margin-right: 30px;
+}
+.chk_1 + label:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.chk_1:checked + label {
+	background-color: #ECF2F7;
+	border: 1px solid #92A1AC;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+	color: #243441;
+}
+
+.chk_1:checked + label:after {
+	content: '\2714';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	color: #758794;
+	width: 100%;
+	text-align: center;
+	font-size: 1.4em;
+	padding: 1px 0 0 0;
+	vertical-align: text-top;
+}
+div.cbp label.font{
+	text-align: center;
+	font-size: 1.4em;
+	vertical-align: text-top;
+	margin-top: -15px;
+	margin-left: -10px;
+}
+
+</style>
+<body>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    	西游记告诉我们：凡是有后台的妖怪都被接走了，
+    <small>凡是没后台的都被一棒子打死了</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> 系统管理</a></li>
+    <li class="active">品牌管理</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	 <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">品牌列表</h3>
+              <br><br>
+              <button th:if="${QX.add == '1' && QX.query == '1'}" class="btn btn-success btn-sm" id="addBrand"><i class="fa fa-plus"></i> &nbsp;&nbsp;添加品牌</button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="goodsList" class="table table-bordered table-striped">
+                <thead>
+	                <tr>
+	                  <th>序号</th>
+	                  <th>品牌ID</th>
+	                  <th>品牌编号</th>
+	                  <th>品牌名称</th>
+	                  <th>联系人</th>
+	                  <th>联系电话</th>
+	                  <th>创建时间</th>
+	                  <th>更新时间</th>
+	                  <th>最后操作人</th>
+	                  <th>操作</th>
+	                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${QX.query == '1'}" th:each="brand,stat :${brandList}">
+                  <td th:text="${stat.count}">1</td>
+                  <td th:text="${brand.brand_id}">商品ID</td>
+                  <td th:text="${brand.brand_no}">品牌编号</td>
+                  <td th:text="${brand.brand_name}">品牌名称</td>
+                  <td th:text="${brand.linkman}">联系人</td>
+				  <td th:text="${brand.telephone}">联系电话</td>
+                  <td th:text="${brand.create_time}">创建时间</td>
+                  <td th:text="${brand.update_time}">更新时间</td>
+                  <td th:text="${brand.username}">最后操作人</td>
+                  <td>
+                  	<!--<div th:if="${brand.brand_id != 1 || meid == '1'}">-->
+	                  	<!--<span data-toggle="tooltip" title="给品牌分配角色" th:if="${QX.edit == '1'}" class="btn btn-xs btn-primary" th:onclick="'allotRole(\''+${brand.brand_id}+'\');'"><i class="fa fa-brand-md"></i> 分配角色</span>-->
+	                  	<!--<span data-toggle="tooltip" title="编辑品牌信息" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editBrand(\''+${brand.brand_id}+'\',\''+${brand.brandname}+'\',\''+${brand.nick_name}+'\',\''+${brand.pic_path}+'\');'"><i class="fa fa-edit"></i> </span>-->
+	                  	<!--<span data-toggle="tooltip" title="删除品牌" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delBrand(\''+${brand.brand_id}+'\',\''+${brand.pic_path}+'\');'"><i class="fa fa-trash-o"></i> </span>-->
+	                  	<!--<span data-toggle="tooltip" title="权限不够" th:unless="${QX.edit == '1' || QX.add == '1' || QX.del == '1'}" ><i class="fa fa-lock"></i> </span>-->
+                  	<!--</div>-->
+                  	<div>
+						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editBrand(\''+${brand.brand_id}+'\',\''+${brand.brand_no}+'\',\''+${brand.brand_name}+'\',\''+${brand.linkman}+'\',\''+${brand.telephone}+'\');'"><i class="fa fa-edit"></i> </span>
+						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delBrand(\''+${brand.brand_id}+'\',\''+${brand.brand_no}+'\');'"><i class="fa fa-trash-o"></i> </span>
+                  	</div>
+                  </td>
+                </tr>
+                <tr th:unless="${QX.query == '1'}" >
+                	<td colspan="7" align="center">
+						<h2>此品牌无权限查看该页面</h2>
+                	</td>
+                </tr>
+                </tbody>
+               </table>
+	       </div>
+	 </div>
+</section>
+
+
+<!-- 新增或修改的模态框 -->
+<div class="modal fade" id="brandModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title text-center" id="brandmodelHead">添加品牌</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal"  role="form">
+				  <input type="hidden" name="brand_id" value=""/>
+				  <input type="hidden" name="url" value=""/>
+
+					<div class="form-group">
+						<label for="brand_no" class="col-sm-2 control-label">品牌编码</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="brand_no" value="" id="brand_no" placeholder="请输入品牌编码">
+						</div>
+					</div>
+				  <div class="form-group">
+				    <label for="brand_name" class="col-sm-2 control-label">品牌名称</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="brand_name" value="" id="brand_name" placeholder="请输入品牌名称">
+				    </div>
+				  </div>
+
+				  
+				  <div class="form-group">
+				    <label for="linkman" class="col-sm-2 control-label">联系人</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="linkman" value="" id="linkman" placeholder="请输入联系人姓名">
+				    </div>
+				  </div>
+
+				  <div class="form-group">
+				    <label for="telephone" class="col-sm-2 control-label">联系电话</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" name="telephone" value="" id="telephone" placeholder="请输入联系人电话">
+				    </div>
+				  </div>
+
+				 </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				<button type="submit" class="btn btn-success"  id="brandSubmit" >确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--&lt;!&ndash; 角色权限模态框 &ndash;&gt;-->
+<!--<div class="modal fade" id="editbrandRoleModal" tabindex="-1" role="dialog"-->
+	<!--aria-labelledby="myModalLabel" aria-hidden="true">-->
+	<!--<div class="modal-dialog">-->
+		<!--<div class="modal-content">-->
+			<!--<div class="modal-header">-->
+				<!--<button type="button" class="close" data-dismiss="modal"-->
+					<!--aria-hidden="true">&times;</button>-->
+				<!--<h4 class="modal-title text-center" id="brandRoleModelHead">编辑角色权限</h4>-->
+			<!--</div>-->
+			<!--<div class="modal-body">-->
+				<!--<div class="cbp">-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="modal-footer">-->
+				<!--<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>-->
+				<!--<button type="submit" class="btn btn-success"  id="roleSubmit" >确定</button>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+<!--</div>-->
+
+
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>	
+<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/ztree/js/jquery.ztree.core.js}"></script>
+<script th:src="@{/ztree/js/jquery.ztree.excheck.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/js/path.js}"></script>
+<script>
+$(function(){
+	 //提示框
+    $("[data-toggle='tooltip']").tooltip();
+	//表格分页
+    $('#goodsList').DataTable({
+    	"scrollX"	  : true,
+  		'paging'      : true,
+  	    'lengthChange': true,
+  	    'searching'   : true,
+  	    'ordering'    : true,
+  	    'info'        : true,
+  	    'autoWidth'   : false,
+  	  	"pagingType"  : "full_numbers",
+  	  	"pageLength"  : 10
+    });
+	
+	$("#addBrand").click(function(){
+		addClick();
+        reloadModelData(_ctx+"/brand/add","添加品牌","添加","","","","","","add");
+		$("#brandModal").modal("show");
+	});
+	
+	//确认按钮
+	$("#brandSubmit").click(function(){
+		var url = $("input[name='url']").val();
+		var brandId = $("input[name='brand_id']").val();
+		var brandNo = $("input[name='brand_no']").val();
+		var brandName = $("input[name='brand_name']").val();
+		var linkman = $("input[name='linkman']").val();
+		var telephone = $("input[name='telephone']").val();
+		if(url == _ctx+'/brand/add'){
+			if(!checkAccount(brandNo,brandName,linkman,telephone)){
+				return false;
+			}
+		}
+		$.ajax({
+			type:"post",
+			url:url,
+			cache:false,
+			dataType:"json",
+			data:{brandId:null,brandNo:brandNo,brandName:brandName,linkman:linkman,telephone:telephone,status:0,time:new Date().getTime()},
+			success:function(data){
+				if(data.status == 'success'){
+					$("#brandModal").modal("hide");
+					window.location.href=window.location.href;
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
+	});
+	
+	//确认按钮
+	$("#roleSubmit").click(function(){
+		var ids="";
+		$("input[name='roleids']:checked").each(function(){
+			ids = ids + $(this).val() +",";
+		});
+		var brandId = $("input[name='role_brand_id']").val();
+		$.ajax({
+			type:"POST",
+			url:_ctx+"/brand/editRole",
+			cache:false,
+			dataType:"json",
+			data:{brand_id:brandId,ids:ids,time:new Date().getTime()},
+			success:function(data){
+				if(data.status == 'success'){
+					window.location.href= window.location.href;
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
+	});
+})
+
+//删除品牌
+function delBrand(brandId,brandNo){
+	if(confirm("你确定要删除此品牌吗？")){
+		$.ajax({
+			type:"POST",
+			url:_ctx+"/brand/del",
+			dataType:"json",
+			data:{brandId:brandId,brandNo:brandNo},
+			cache:false,
+			success:function(data){
+				if(data.status == 'success'){
+					window.location.href=window.location.href;
+				}else{
+					alert(data.msg);
+				}
+			}
+		});
+	}
+}
+
+//分配角色
+function allotRole(brandId){
+	$(".modal-body .cbp p").remove();
+	$.ajax({
+		type:"GET",
+		url:_ctx+"/brand/getRole",
+		dataType:"json",
+		data:{brand_id:brandId,time:new Date().getTime()},
+		cache:false,
+		success:function(data){
+			if(data.status == 'success'){
+				var str = "<p><input type='hidden' name='role_brand_id' value='"+brandId+"' />";
+				var arr = data.data;
+				for(var i =0;i<arr.length;i++){
+					var rolestr = "";
+					if(arr[i].checked){
+						rolestr="<p><input type='checkbox' name='roleids' id='id"+(i+1)+"' value='"+arr[i].role_id+"' class='chk_1' checked />";
+					}else{
+						rolestr="<p><input type='checkbox' name='roleids' id='id"+(i+1)+"' value='"+arr[i].role_id+"' class='chk_1'/>";
+					}
+					rolestr = rolestr +"<label for='id"+(i+1)+"'></label><label data-toggle='tooltip' title='"+arr[i].role_desc+"' data-placement='right' class='font'>"+arr[i].role_name+"</label></p>";
+					str = str + rolestr;
+				}
+				$(".modal-body .cbp").append(str);
+				//这是为了让title 属性生效
+				$.getScript("/js/tip.js");
+				$("#editbrandRoleModal").modal("show");
+			}else{
+				alert(data.msg);
+			}
+		}
+	});
+}
+
+//编辑品牌
+function editBrand(brand_id,brand_no,brand_name,linkman,telephone){
+    editClick();
+    console.log(brand_id+","+brand_no+","+brand_name+","+linkman+","+telephone);
+	reloadModelData(_ctx+"/brand/edit","编辑品牌","更新",brand_id,brand_no,brand_name,linkman,telephone,"edit");
+	$("#brandModal").modal("show");
+}
+
+//验证数据
+function checkAccount(brand_name,brand_no,linkman,telephone){
+    if(brand_no == ''){
+        $("input[name='brand_no']").focus();
+        alert("品牌编码不能为空");
+        return false;
+    }
+	if(brand_no == ''){
+		$("input[name='brand_name']").focus();
+		alert("品牌名不能为空");
+		return false;
+	}
+	if(linkman == ''){
+		$("input[name='linkman']").focus();
+		alert("联系人名称不能为空");
+		return false;
+	}else if(telephone.length < 11){
+		$("input[name='telephone']").focus();
+		alert("联系电话个数不能少于11位");
+		return false;
+	}
+	return true;
+}
+
+//加载模态框的数据
+function reloadModelData(url,title,btntext,brand_id,brand_no,brand_name,linkman,telephone,type){
+    $("input[name='url']").val(url);
+    $("#brandModal #brandmodelHead").text(title);
+	$("#brandModal #imgSubmit").text(btntext);
+	$("input[name='brand_id']").val(brand_id);
+	$("input[name='brand_no']").val(brand_no);
+	$("input[name='brand_name']").val(brand_name);
+	$("input[name='linkman']").val(linkman);
+	$("input[name='telephone']").val(telephone);
+	if(type == 'add'){
+		$("input[name='brandName']").attr("disabled",false);
+	}else{
+		$("input[name='brandName']").attr("disabled",true);
+	}
+}
+
+var input = document.getElementById("imgfile");
+ if (typeof (FileReader) === 'undefined') {
+     result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
+     input.setAttribute('disabled', 'disabled');
+ } else {
+     // input.addEventListener('change', readFile, false);
+ }
+function readFile() {
+	var file = this.files[0];
+     //判断是否是图片类型
+     if (!/image\/\w+/.test(file.type)) {
+         alert("只能选择图片");
+         return false;
+    }
+     var reader = new FileReader();
+     reader.readAsDataURL(file);
+     reader.onload = function (e) {
+     	base64Code=this.result;
+     	$("#brandModal input[name='pics']").val(this.result);
+     	$("#showImg").attr("src",this.result);
+     }
+  }
+
+  function editClick(){
+      $("input[name='brand_no']").attr("disabled","disabled");
+  }
+  function addClick(){
+      $("input[name='brand_no']").removeAttr("disabled");
+  }
+</script>
+</body>
+</html>

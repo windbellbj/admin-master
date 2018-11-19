@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.admin.dao.GoodsDao" >
+    <resultMap id="goodsResultMap" type="com.lxl.admin.entity.Goods" >
+        <id column="goods_id" property="goodsId" jdbcType="BIGINT" />
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+        <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="BIGINT" />
+        <result column="create_time" property="creteTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        goods.goods_id,
+        goods.goods_name,
+        goods.goods_no,
+        goods.title,
+        goods.goods_desc,
+        goods.pic_path,
+        goods.status,
+        goods.create_time,
+        goods.update_time,
+        goods.user_id,
+        sys_user.username as username,
+        category.category_id as category_id,
+        category.category_name as category_name,
+        brand.brand_name as brand_name,
+        brand.brand_no as brand_no
+    </sql>
+
+    <select id="getGoodsList" resultType="pm">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        goods ,sys_user,category,brand
+        where sys_user.user_id = goods.user_id
+        and category.category_id = goods.category_id
+        and brand.brand_no = goods.brand_no AND goods.status = ${status}
+    </select>
+    <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        goods ,sys_user where sys_user.user_id = goods.user_id AND goods_no = #{goodsNo} AND goods.status = #{status};
+    </select>
+
+    <insert id="saveGoods" parameterType="pm">
+        insert into goods(
+        goods_id,
+        goods_no,
+        goods_name,
+        title,
+        status,
+        create_time,
+        update_time,
+        user_id,
+        brand_no,
+        category_id,
+        goods_desc
+        )values(
+        NULL,
+        #{goodsNo},
+        #{goodsName},
+        #{title},
+        #{status},
+        #{createTime},
+        #{updateTime},
+        #{userId},
+        #{brandNo},
+        #{categoryId},
+        #{goodsDesc}
+        )
+    </insert>
+    <update id="editGoods" parameterType="pm">
+        update
+        goods
+        set
+        <if test="goodsNo != null and brandNo != ''">
+            goods_no=#{goodsNo}
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            ,goods_name=#{goodsName}
+        </if>
+        <if test="title != null and title != ''">
+            ,title=#{title}
+        </if>
+        <if test="goodsDesc != null and goodsDesc != ''">
+            ,goods_desc=#{goodsDesc}
+        </if>
+        <if test="status != null and status != ''">
+            ,status=#{status}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            ,create_time=#{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,update_time=#{updateTime}
+        </if>
+        <if test="userId != null and userId != ''">
+            ,user_id=#{userId}
+        </if>
+        <if test="categoryId != null and categoryId != ''">
+            ,category_id=#{categoryId}
+        </if>
+        <if test="brandNo != null and brandNo != ''">
+            ,brand_no=#{brandNo}
+        </if>
+        where
+        goods_no = #{goodsNo}
+    </update>
+    <update id="updateStatus" parameterType="pm">
+        update
+        goods
+        set
+        <if test="status != null and status != ''">
+            status=#{status}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,update_time=#{updateTime}
+        </if>
+        <if test="userId != null and userId != ''">
+            ,user_id=#{userId}
+        </if>
+        where
+        goods_no = #{goodsNo}
+    </update>
+</mapper>

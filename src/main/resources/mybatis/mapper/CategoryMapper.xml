@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.admin.dao.CategoryDao" >
+    <resultMap id="categoryResultMap" type="com.lxl.admin.entity.Category" >
+        <id column="category_id" property="categoryId" jdbcType="BIGINT" />
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="BIGINT" />
+        <result column="create_time" property="creteTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        category.category_id,
+        category.category_name,
+        category.status,
+        category.create_time,
+        category.update_time,
+        category.user_id,
+        sys_user.username as username
+    </sql>
+    <sql id="Base_Column_List_java">
+        category.category_id as categoryId,
+        category.category_name as categoryName,
+        category.status,
+        category.create_time as creatiTime,
+        category.update_time as updateTime,
+        category.user_id as userId,
+        sys_user.username
+    </sql>
+    <select id="getCategoryList" resultType="pm">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        category ,sys_user where sys_user.user_id = category.user_id AND category.status = #{status}
+    </select>
+    <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        category ,sys_user where sys_user.user_id = category.user_id AND category.category_id = #{categoryId} AND category.status = #{status};
+    </select>
+
+    <insert id="saveCategory" parameterType="pm">
+        insert into category(
+        category_id,
+        category_name,
+        status,
+        create_time,
+        update_time,
+        user_id
+        )values(
+        NULL,
+        #{categoryName},
+        #{status},
+        #{createTime},
+        #{updateTime},
+        #{userId}
+        )
+    </insert>
+    <update id="editCategory" parameterType="pm">
+        update
+        category
+        set
+        <if test="categoryName != null and categoryName != ''">
+            category_name=#{categoryName}
+        </if>
+        <if test="status != null and status != ''">
+            ,status=#{status}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            ,create_time=#{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,update_time=#{updateTime}
+        </if>
+        <if test="userId != null and userId != ''">
+            ,user_id=#{userId}
+        </if>
+        where
+        category_id = #{categoryId}
+    </update>
+    <update id="updateStatus" parameterType="pm">
+            update
+            category
+            set
+            <if test="status != null and status != ''">
+                status=#{status}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                ,update_time=#{updateTime}
+            </if>
+            <if test="userId != null and userId != ''">
+                ,user_id=#{userId}
+            </if>
+            where
+            category_id = #{categoryId}
+        </update>
+
+</mapper>

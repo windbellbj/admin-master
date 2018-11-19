@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.admin.dao.BrandDao" >
+    <resultMap id="brandResultMap" type="com.lxl.admin.entity.Brand" >
+        <id column="brand_id" property="brandId" jdbcType="BIGINT" />
+        <result column="brand_no" property="brandNo" jdbcType="VARCHAR" />
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+        <result column="linkman" property="linkman" jdbcType="VARCHAR" />
+        <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="BIGINT" />
+        <result column="create_time" property="creteTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        brand.brand_id,
+        brand.brand_no,
+        brand.brand_name,
+        brand.linkman,
+        brand.telephone,
+        brand.status,
+        brand.create_time,
+        brand.update_time,
+        brand.user_id,
+        sys_user.username as username
+    </sql>
+    <sql id="Base_Column_List_java">
+        brand.brand_id as brandId,
+        brand.brand_no as brandNo,
+        brand.brand_name as brandName,
+        brand.linkman,
+        brand.telephone,
+        brand.status,
+        brand.create_time as creatiTime,
+        brand.update_time as updateTime,
+        brand.user_id as userId,
+        sys_user.username
+    </sql>
+    <select id="getBrandList" resultType="pm">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        brand ,sys_user where sys_user.user_id = brand.user_id AND brand.status = #{status}
+    </select>
+    <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        brand ,sys_user where sys_user.user_id = brand.user_id AND brand_no = #{brandNo} AND brand.status = #{status};
+    </select>
+
+    <insert id="saveBrand" parameterType="pm">
+        insert into brand(
+        brand_id,
+        brand_no,
+        brand_name,
+        linkman,
+        telephone,
+        status,
+        create_time,
+        update_time,
+        user_id
+        )values(
+        NULL,
+        #{brandNo},
+        #{brandName},
+        #{linkman},
+        #{telephone},
+        #{status},
+        #{createTime},
+        #{updateTime},
+        #{userId}
+        )
+    </insert>
+    <update id="editBrand" parameterType="pm">
+        update
+        brand
+        set
+        <if test="brandNo != null and brandNo != ''">
+            brand_no=#{brandNo}
+        </if>
+
+        <if test="brandName != null and brandName != ''">
+            ,brand_name=#{brandName}
+        </if>
+
+        <if test="linkman != null and linkman != ''">
+            ,linkman=#{linkman}
+        </if>
+
+        <if test="telephone != null and telephone != ''">
+            ,telephone=#{telephone}
+        </if>
+        <if test="status != null and status != ''">
+            ,status=#{status}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            ,create_time=#{createTime}
+        </if>
+        <if test="updateTime != null and updateTime != ''">
+            ,update_time=#{updateTime}
+        </if>
+        <if test="userId != null and userId != ''">
+            ,user_id=#{userId}
+        </if>
+        where
+        brand_no = #{brandNo}
+    </update>
+    <update id="updateStatus" parameterType="pm">
+            update
+            brand
+            set
+            <if test="status != null and status != ''">
+                status=#{status}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                ,update_time=#{updateTime}
+            </if>
+            <if test="userId != null and userId != ''">
+                ,user_id=#{userId}
+            </if>
+            where
+            brand_no = #{brandNo}
+        </update>
+
+</mapper>
