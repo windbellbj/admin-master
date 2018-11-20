@@ -60,7 +60,8 @@
         user_id,
         brand_no,
         category_id,
-        goods_desc
+        goods_desc,
+        pic_path
         )values(
         NULL,
         #{goodsNo},
@@ -72,18 +73,16 @@
         #{userId},
         #{brandNo},
         #{categoryId},
-        #{goodsDesc}
+        #{goodsDesc},
+        #{picPath}
         )
     </insert>
     <update id="editGoods" parameterType="pm">
         update
         goods
         set
-        <if test="goodsNo != null and brandNo != ''">
-            goods_no=#{goodsNo}
-        </if>
         <if test="goodsName != null and goodsName != ''">
-            ,goods_name=#{goodsName}
+            goods_name=#{goodsName}
         </if>
         <if test="title != null and title != ''">
             ,title=#{title}
@@ -108,6 +107,9 @@
         </if>
         <if test="brandNo != null and brandNo != ''">
             ,brand_no=#{brandNo}
+        </if>
+        <if test="picPath != null and picPath != ''">
+            ,pic_path=#{picPath}
         </if>
         where
         goods_no = #{goodsNo}
