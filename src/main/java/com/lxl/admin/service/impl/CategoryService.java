@@ -36,8 +36,13 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public List<ParameterMap> getCategoryList(ParameterMap pm) {
-        pm.put("status", Const.OPEN);
+        pm.put("status", Const.DELETE);
         return categoryDao.getCategoryList(pm);
+    }
+    @Override
+    public List<ParameterMap> getCategoryListByOpen(ParameterMap pm) {
+        pm.put("status", Const.OPEN);
+        return categoryDao.getCategoryListByOpen(pm);
     }
 
     @Override

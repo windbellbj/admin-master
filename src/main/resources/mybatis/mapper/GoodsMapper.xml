@@ -39,7 +39,7 @@
         goods ,sys_user,category,brand
         where sys_user.user_id = goods.user_id
         and category.category_id = goods.category_id
-        and brand.brand_no = goods.brand_no AND goods.status = ${status}
+        and brand.brand_no = goods.brand_no AND goods.status != ${status}
     </select>
     <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">
         SELECT

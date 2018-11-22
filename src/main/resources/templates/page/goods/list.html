@@ -112,7 +112,8 @@ div.cbp label.font{
 	                  <th>所属品牌</th>
 	                  <th>所属品类</th>
 	                  <th>商品图像</th>
-	                  <th>创建时间</th>
+					  <th>状态</th>
+					  <th>创建时间</th>
 	                  <th>更新时间</th>
 	                  <th>最后操作人</th>
 	                  <th>操作</th>
@@ -125,13 +126,16 @@ div.cbp label.font{
                   <td th:text="${goods.goods_name}">商品名称</td>
 				  <td th:text="${goods.brand_name}">所属品牌</td>
 				  <td th:text="${goods.category_name}">所属品类</td>
-					<td><img height="30px" th:onclick="'showimage(\''+${goods.pic_path}+'\');'" style="border-radius: 15px;" th:src="${goods.pic_path}" src="/images/logo.png"></img></td>
-                  <td th:text="${goods.create_time}">创建时间</td>
+				  <td><img height="30px" th:onclick="'showimage(\''+${goods.pic_path}+'\');'" style="border-radius: 15px;" th:src="${goods.pic_path}" src="/images/logo.png"></img></td>
+				  <!--<td><img height="30px" th:onclick="'showimage(\''+${goods.pic_path}+'\');'" style="border-radius: 15px;" th:src="${goods.pic_path}" src="/images/logo.png"></img></td>-->
+				  <td th:if="${goods.status} eq '1'"><span class="label-success label label-default">上架</span></td>
+				  <td th:if="${goods.status} eq '2'"><span class="label-danger label label-default">下架</span></td>
+				  <td th:text="${goods.create_time}">创建时间</td>
                   <td th:text="${goods.update_time}">更新时间</td>
                   <td th:text="${goods.username}">最后操作人</td>
                   <td>
                   	<div>
-						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editGoods(\''+${goods.goods_id}+'\',\''+${goods.goods_no}+'\',\''+${goods.goods_name}+'\',\''+${goods.brand_no}+'\',\''+${goods.category_id}+'\',\''+${goods.title}+'\',\''+${goods.goods_desc}+'\',\''+${goods.pic_path}+'\');'"><i class="fa fa-edit"></i> </span>
+						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editGoods(\''+${goods.goods_id}+'\',\''+${goods.goods_no}+'\',\''+${goods.goods_name}+'\',\''+${goods.brand_no}+'\',\''+${goods.category_id}+'\',\''+${goods.title}+'\',\''+${goods.goods_desc}+'\',\''+${goods.pic_path}+'\',\''+${goods.status}+'\');'"><i class="fa fa-edit"></i> </span>
 						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delGoods(\''+${goods.goods_id}+'\',\''+${goods.goods_no}+'\');'"><i class="fa fa-trash-o"></i> </span>
                   	</div>
                   </td>
@@ -222,6 +226,13 @@ div.cbp label.font{
 							<input type="text" class="form-control" name="goods_desc" value="" id="goods_desc" placeholder="请输入商品描述">
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label for="status" class="col-sm-2 control-label">状态</label>
+						<div class="col-sm-10 switch" data-on-label="SI" data-off-label="NO">
+							<input name="status" type="checkbox" data-size="small">
+						</div>
+					</div>
 				 </form>
 			</div>
 			<div class="modal-footer">
@@ -249,6 +260,7 @@ div.cbp label.font{
 <!--<script th:src="@{/bower_components/fileupload/js/fileinput.js}"></script>-->
 <!--<script th:src="@{/bower_components/fileupload/js/fileinput_locale_de.js}"></script>-->
 <script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/bower_components/bootstrap-switch-master/dist/js/bootstrap-switch.js}"></script>
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
 <script th:src="@{/ztree/js/jquery.ztree.core.js}"></script>
@@ -279,7 +291,7 @@ $(function(){
 
 	$("#addGoods").click(function(){
 	    addClick();
-		reloadModelData("",_ctx+"/goods/add","添加商品","添加","","","","","","","","","add");
+		reloadModelData("",_ctx+"/goods/add","添加商品","添加","","","","","","","","","","add");
         getDataList();
 		$("#goodsModal").modal("show");
 	});
@@ -296,7 +308,8 @@ $(function(){
 		var goodsDesc = $("input[name='goods_desc']").val();
 		var brandNo = $("#brand_name").val();
 		var categoryId = $("#category_name").val();
-		if(url == _ctx+'/goods/add'){
+        var status = $("input[name='status']").val();
+        if(url == _ctx+'/goods/add'){
 			if(!checkAccount(goodsName,goodsNo,title,goodsDesc,brandNo,categoryId)){
 				return false;
 			}
@@ -306,7 +319,7 @@ $(function(){
 			url:url,
 			cache:false,
 			dataType:"json",
-			data:{goodsId:goodsId,oldpath:oldpath,goodsName:goodsName,goodsNo:goodsNo,title:title,goodsDesc:goodsDesc,brandNo:brandNo,categoryId:categoryId,time:new Date().getTime(),picPath:base64Img},
+			data:{goodsId:goodsId,oldpath:oldpath,goodsName:goodsName,goodsNo:goodsNo,title:title,goodsDesc:goodsDesc,brandNo:brandNo,categoryId:categoryId,time:new Date().getTime(),picPath:base64Img,status:status},
 			success:function(data){
 				if(data.status == 'success'){
 					$("#goodsModal").modal("hide");
@@ -398,10 +411,10 @@ function allotRole(goodsId){
 }
 
 //编辑商品
-function editGoods(goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,picPath){
+function editGoods(goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,picPath,status){
     editClick();
-    console.log(goodsId+","+goodsNo+","+goodsName+","+brandNo+","+categoryId+","+title+","+goodsDesc+","+picPath);
-	reloadModelData(_ctx+"/goods/edit","编辑商品","更新",goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,picPath,"edit");
+    console.log(goodsId+","+goodsNo+","+goodsName+","+brandNo+","+categoryId+","+title+","+goodsDesc+","+picPath+","+status);
+	reloadModelData(_ctx+"/goods/edit","编辑商品","更新",goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,picPath,status,"edit");
 	$("#goodsModal").modal("show");
 }
 
@@ -429,7 +442,7 @@ function checkAccount(goodsName,goodsNo,title,goodsDesc,brandNo,categoryId){
 }
 
 //加载模态框的数据
-function reloadModelData(url,title,btntext,goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,oldpath,type){
+function reloadModelData(url,title,btntext,goodsId,goodsNo,goodsName,brandNo,categoryId,title,goodsDesc,oldpath,status,type){
     getDataList(brandNo,categoryId);
     $("#goodsModal #goodsmodelHead").text(title);
 	$("#goodsModal #goodsSubmit").text(btntext);
@@ -443,6 +456,11 @@ function reloadModelData(url,title,btntext,goodsId,goodsNo,goodsName,brandNo,cat
 	$("input[name='goods_name']").val(goodsName);
 	$("input[name='title']").val(title);
 	$("input[name='goods_desc']").val(goodsDesc);
+    if(status == 1){
+        $('input[name="status"]').bootstrapSwitch('state', true);
+    }else {
+        $('input[name="status"]').bootstrapSwitch('state', false);
+    }
 	if(type == 'add'){
 		$("input[name='goodsname']").attr("disabled",false);
 	}else{
@@ -531,6 +549,25 @@ function showimage(source)
 function closeImageViewer(){
     $("#imgModal").modal('hide');
 }
+
+$('[name="status"]').bootstrapSwitch({
+    onText:"启用",
+    offText:"停用",
+    onColor:"success",//(info/success/warning/danger/primary)
+    offColor:"danger",//(info/success/warning/danger/primary)
+    size:"small",//(mini/small/normal/large)
+    // handleWidth:"35",//设置控件宽度
+    onSwitchChange:function(event,state){
+        if(state==true){
+            $(this).val("1");
+            // console.log("启用");
+        }else{
+            $(this).val("2");
+            // console.log("停用");
+        }
+    }
+})
+
 </script>
 </body>
 </html>

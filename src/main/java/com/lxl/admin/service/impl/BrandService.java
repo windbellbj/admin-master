@@ -36,9 +36,17 @@ public class BrandService implements IBrandService {
 
     @Override
     public List<ParameterMap> getBrandList(ParameterMap pm) {
-        pm.put("status", Const.OPEN);
+        pm.put("status", Const.DELETE);
         return brandDao.getBrandList(pm);
     }
+
+
+    @Override
+    public List<ParameterMap> getBrandListByOpen(ParameterMap pm) {
+        pm.put("status", Const.OPEN);
+        return brandDao.getBrandListByOpen(pm);
+    }
+
 
     @Override
     public HashMap<String, Object> add(ParameterMap pm,HttpSession session) {

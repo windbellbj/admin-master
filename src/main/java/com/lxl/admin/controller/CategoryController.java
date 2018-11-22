@@ -46,7 +46,7 @@ public class CategoryController extends BaseController {
     @RequestMapping(value="/getCategoryList",method= RequestMethod.GET)
     @Permission(url = qxurl,type = PermissionType.QUERY)
     public Object getCategoryList(Model model){
-        return categoryService.getCategoryList(this.getParameterMap());
+        return categoryService.getCategoryListByOpen(this.getParameterMap());
     }
 
     /**

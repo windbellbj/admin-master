@@ -51,7 +51,7 @@ public class GoodsService implements IGoodsService {
     private GoodsDao goodsDao;
     @Override
     public List<ParameterMap> getGoodsList(ParameterMap pm) {
-        pm.put("status", Const.OPEN);
+        pm.put("status", Const.DELETE);
         return goodsDao.getGoodsList(pm);
     }
 

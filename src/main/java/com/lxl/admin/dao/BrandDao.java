@@ -5,6 +5,7 @@ import com.lxl.admin.util.ParameterMap;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <dl>
@@ -25,4 +26,6 @@ public interface BrandDao extends Mapper<Brand>{
     Integer getCountByNo(ParameterMap pm);
 
     void updateStatus(ParameterMap pm);
+
+    List<ParameterMap> getBrandListByOpen(ParameterMap pm);
 }

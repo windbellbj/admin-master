@@ -46,7 +46,7 @@ public class BrandController extends BaseController {
     @RequestMapping(value="/getBrandList",method= RequestMethod.GET)
     @Permission(url = qxurl,type = PermissionType.QUERY)
     public Object getBrandList(){
-        return brandService.getBrandList(this.getParameterMap());
+        return brandService.getBrandListByOpen(this.getParameterMap());
     }
 
     /**

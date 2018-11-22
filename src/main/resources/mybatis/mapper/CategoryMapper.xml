@@ -33,6 +33,12 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM
+        category ,sys_user where sys_user.user_id = category.user_id AND category.status != #{status}
+    </select>
+    <select id="getCategoryListByOpen" resultType="pm">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
         category ,sys_user where sys_user.user_id = category.user_id AND category.status = #{status}
     </select>
     <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">

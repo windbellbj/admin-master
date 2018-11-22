@@ -3,6 +3,7 @@ package com.lxl.admin.dao;
 import com.lxl.admin.util.ParameterMap;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <dl>
@@ -23,4 +24,6 @@ public interface CategoryDao{
     Integer getCountByNo(ParameterMap pm);
 
     void updateStatus(ParameterMap pm);
+
+    List<ParameterMap> getCategoryListByOpen(ParameterMap pm);
 }

@@ -139,22 +139,22 @@
 <script th:src="@{/js/menu.js}"></script>
 </body>
 </html>
-<!--<script type="text/javascript" charset="utf-8">-->
-    <!--// 定义一个函数用以显示当前时间-->
-    <!--function displayTime() {-->
-        <!--var elt = document.getElementById("clock"); // 通过id= "clock"找到元素-->
-        <!--var now = new Date(); // 得到当前时间-->
-        <!--elt.innerHTML = now.toLocaleTimeString(); //让elt来显示它-->
-        <!--setTimeout(displayTime,1000); //在1秒后再次执行-->
-    <!--}-->
-    <!--window.onload = displayTime; //当onload事件发生时开始显示时间-->
-<!--</script>-->
-<!--<style type="text/css" media="all">-->
-	<!--#clock {-->
-		<!--font: bold 24pt sans;-->
-		<!--background: #ddf;-->
-		<!--padding: 10px;-->
-		<!--border: 2px solid black;-->
-		<!--border-radius: 10px;-->
-	<!--}-->
-<!--</style>-->
+<script type="text/javascript" charset="utf-8">
+    // 定义一个函数用以显示当前时间
+    function displayTime() {
+        var elt = document.getElementById("clock"); // 通过id= "clock"找到元素
+        var now = new Date(); // 得到当前时间
+        elt.innerHTML = now.toLocaleTimeString(); //让elt来显示它
+        setTimeout(displayTime,1000); //在1秒后再次执行
+    }
+    window.onload = displayTime; //当onload事件发生时开始显示时间
+</script>
+<style type="text/css" media="all">
+	#clock {
+		font: bold 12pt sans;
+		background: #ddf;
+		padding: 10px;
+		border: 2px solid black;
+		border-radius: 10px;
+	}
+</style>

@@ -42,6 +42,12 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM
+        brand ,sys_user where sys_user.user_id = brand.user_id AND brand.status != #{status}
+    </select>
+    <select id="getBrandListByOpen" resultType="pm">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
         brand ,sys_user where sys_user.user_id = brand.user_id AND brand.status = #{status}
     </select>
     <select id="getCountByNo"  parameterType="pm" resultType="java.lang.Integer">

@@ -26,4 +26,6 @@ public interface IBrandService {
     public Map<String,Object> edit(ParameterMap parameterMap, HttpSession session);
 
     public Map<String,Object> del(ParameterMap parameterMap, HttpSession session);
+
+    public List<ParameterMap> getBrandListByOpen(ParameterMap parameterMap);
 }
