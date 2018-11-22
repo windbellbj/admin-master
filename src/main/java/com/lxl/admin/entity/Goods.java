@@ -1,5 +1,6 @@
 package com.lxl.admin.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -11,19 +12,21 @@ import java.util.Date;
  * </dl>
  */
 @SuppressWarnings("all")
-public class Goods {
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "goods")
+public class Goods extends BaseEntity {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer goodsId;
+    @Column
     private String goodsNo;
+    @Column
     private String goodsName;
+    @Column
     private String title;
+    @Column
     private String goodsDesc;
-    private Integer status;
-    private Date createTime;
-    private Date updateTime;
-    private Integer userId;
 
     public Integer getGoodsId() {
         return goodsId;
@@ -65,35 +68,4 @@ public class Goods {
         this.goodsDesc = goodsDesc;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 }

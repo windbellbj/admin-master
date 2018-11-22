@@ -1,5 +1,6 @@
 package com.lxl.admin.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,42 +13,33 @@ import java.util.Date;
  * </dl>
  */
 @SuppressWarnings("all")
-public class Category implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "category")
+public class Category extends BaseEntity{
 
-    private Integer branId;
-    private String brandNo;
-    private String brandName;
-    private String linkman;
-    private String telephone;
-    private String status;
-    private Date createTime;
-    private Date updateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer categoryId;
+    @Column
+    private String categoryName;
+    @Column
     private Integer userId;
-    private String username;
 
-    public String getUsername() {
-        return username;
+
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Integer getUserId() {
@@ -58,51 +50,4 @@ public class Category implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getBranId() {
-        return branId;
-    }
-
-    public void setBranId(Integer branId) {
-        this.branId = branId;
-    }
-
-    public String getBrandNo() {
-        return brandNo;
-    }
-
-    public void setBrandNo(String brandNo) {
-        this.brandNo = brandNo;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public String getLinkman() {
-        return linkman;
-    }
-
-    public void setLinkman(String linkman) {
-        this.linkman = linkman;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

@@ -33,20 +33,20 @@
         brand.linkman,
         brand.telephone,
         brand.status,
-        brand.create_time as creatiTime,
+        brand.create_time as createTime,
         brand.update_time as updateTime,
         brand.user_id as userId,
         sys_user.username
     </sql>
     <select id="getBrandList" resultType="pm">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List_java"/>
         FROM
         brand ,sys_user where sys_user.user_id = brand.user_id AND brand.status != #{status}
     </select>
     <select id="getBrandListByOpen" resultType="pm">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List_java"/>
         FROM
         brand ,sys_user where sys_user.user_id = brand.user_id AND brand.status = #{status}
     </select>

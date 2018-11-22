@@ -32,9 +32,27 @@
         brand.brand_no as brand_no
     </sql>
 
+    <sql id="Base_Column_List_Java">
+        goods.goods_id as goodsId,
+        goods.goods_name as goodsName,
+        goods.goods_no as goodsNo,
+        goods.title as title,
+        goods.goods_desc as goodsDesc,
+        goods.pic_path as picPath,
+        goods.status as status,
+        goods.create_time as createTime,
+        goods.update_time as updateTime,
+        goods.user_id as userId,
+        sys_user.username as username,
+        category.category_id as categoryId,
+        category.category_name as categoryName,
+        brand.brand_name as brandName,
+        brand.brand_no as brandNo
+    </sql>
+
     <select id="getGoodsList" resultType="pm">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List_Java"/>
         FROM
         goods ,sys_user,category,brand
         where sys_user.user_id = goods.user_id

@@ -1,6 +1,7 @@
 package com.lxl.admin.service.impl;
 
 import com.lxl.admin.dao.CategoryDao;
+import com.lxl.admin.entity.Category;
 import com.lxl.admin.entity.Const;
 import com.lxl.admin.entity.ResponseModel;
 import com.lxl.admin.entity.User;
@@ -48,12 +49,18 @@ public class CategoryService implements ICategoryService {
     @Override
     public HashMap<String, Object> add(ParameterMap pm,HttpSession session) {
         try {
-            pm.put("status", Const.OPEN);
-            Integer count = categoryDao.getCountByNo(pm);
-            if(count > 0){
-                return ResponseModel.getModel("品牌编码已存在", "falied", null);
+            String categoryName = pm.get("categoryName").toString();
+            Category category = new Category();
+            category.setCategoryName(categoryName);
+            category.setStatus(Const.OPEN);
+            int i = categoryDao.selectCount(category);
+            category.setStatus(Const.CLOSE);
+            i += categoryDao.selectCount(category);
+            if(i>0){
+                return ResponseModel.getModel("该品类名称已存在", "failed", null);
             }
-            pm.put("category_id", null);
+            pm.put("status", Const.OPEN);
+            pm.put("categoryId", null);
             pm.put("createTime", DateUtil.getTime());
             pm.put("updateTime", DateUtil.getTime());
             String userId = ((User) session.getAttribute(Const.SESSION_USER)).getUserId();
@@ -71,6 +78,16 @@ public class CategoryService implements ICategoryService {
     @Override
     public Map<String, Object> edit(ParameterMap pm, HttpSession session) {
         try {
+            String categoryName = pm.get("categoryName").toString();
+            Category category = new Category();
+            category.setCategoryName(categoryName);
+            category.setStatus(Const.OPEN);
+            int i = categoryDao.selectCount(category);
+            category.setStatus(Const.CLOSE);
+            i += categoryDao.selectCount(category);
+            if(i>0){
+                return ResponseModel.getModel("该品类名称已存在", "failed", null);
+            }
             pm.put("updateTime", DateUtil.getTime());
             String userId = ((User) session.getAttribute(Const.SESSION_USER)).getUserId();
             pm.put("userId", userId);

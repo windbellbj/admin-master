@@ -7,6 +7,8 @@
         <setting name="useGeneratedKeys" value="true" /> 
         <setting name="defaultExecutorType" value="REUSE" />
 		<setting name="callSettersOnNulls" value="true"/>
+		<!--驼峰命名-->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
 		<!--  
 		打印查询语句 -->
 		<setting name="logImpl" value="STDOUT_LOGGING" /> 
@@ -16,6 +18,7 @@
 		<typeAlias type="com.lxl.admin.entity.Menu" alias="Menu"  />
 		<typeAlias type="com.lxl.admin.entity.User" alias="user"  />
 		<typeAlias type="com.lxl.admin.entity.Role" alias="role"  />
+		<!--<typeAlias type="com.lxl.admin.entity.Category" alias="category"  />-->
 		<typeAlias type="com.lxl.admin.util.ParameterMap" alias="pm"/>
 	</typeAliases>
 	

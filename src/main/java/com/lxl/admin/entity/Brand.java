@@ -1,5 +1,6 @@
 package com.lxl.admin.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,51 +13,22 @@ import java.util.Date;
  * </dl>
  */
 @SuppressWarnings("all")
-public class Brand implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+@Entity
+@Table(name = "brand")
+public class Brand extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer brandId;
+    @Column
     private String brandNo;
+    @Column
     private String brandName;
+    @Column
     private String linkman;
+    @Column
     private String telephone;
-    private String status;
-    private Date createTime;
-    private Date updateTime;
-    private Integer userId;
-    private String username;
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getBrandId() {
         return brandId;
@@ -98,11 +70,4 @@ public class Brand implements Serializable {
         this.telephone = telephone;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

@@ -122,21 +122,21 @@ div.cbp label.font{
                 <tbody>
                 <tr th:if="${QX.query == '1'}" th:each="goods,stat :${goodsList}">
                   <td th:text="${stat.count}">1</td>
-                  <td th:text="${goods.goods_no}">商品编号</td>
-                  <td th:text="${goods.goods_name}">商品名称</td>
-				  <td th:text="${goods.brand_name}">所属品牌</td>
-				  <td th:text="${goods.category_name}">所属品类</td>
-				  <td><img height="30px" th:onclick="'showimage(\''+${goods.pic_path}+'\');'" style="border-radius: 15px;" th:src="${goods.pic_path}" src="/images/logo.png"></img></td>
+                  <td th:text="${goods.goodsNo}">商品编号</td>
+                  <td th:text="${goods.goodsName}">商品名称</td>
+				  <td th:text="${goods.brandName}">所属品牌</td>
+				  <td th:text="${goods.categoryName}">所属品类</td>
+				  <td><img height="30px" th:onclick="'showimage(\''+${goods.picPath}+'\');'" style="border-radius: 15px;" th:src="${goods.picPath}" src="/images/logo.png"></img></td>
 				  <!--<td><img height="30px" th:onclick="'showimage(\''+${goods.pic_path}+'\');'" style="border-radius: 15px;" th:src="${goods.pic_path}" src="/images/logo.png"></img></td>-->
 				  <td th:if="${goods.status} eq '1'"><span class="label-success label label-default">上架</span></td>
 				  <td th:if="${goods.status} eq '2'"><span class="label-danger label label-default">下架</span></td>
-				  <td th:text="${goods.create_time}">创建时间</td>
-                  <td th:text="${goods.update_time}">更新时间</td>
+				  <td th:text="${{goods.createTime}}">创建时间</td>
+                  <td th:text="${{goods.updateTime}}">更新时间</td>
                   <td th:text="${goods.username}">最后操作人</td>
                   <td>
                   	<div>
-						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editGoods(\''+${goods.goods_id}+'\',\''+${goods.goods_no}+'\',\''+${goods.goods_name}+'\',\''+${goods.brand_no}+'\',\''+${goods.category_id}+'\',\''+${goods.title}+'\',\''+${goods.goods_desc}+'\',\''+${goods.pic_path}+'\',\''+${goods.status}+'\');'"><i class="fa fa-edit"></i> </span>
-						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delGoods(\''+${goods.goods_id}+'\',\''+${goods.goods_no}+'\');'"><i class="fa fa-trash-o"></i> </span>
+						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editGoods(\''+${goods.goodsId}+'\',\''+${goods.goodsNo}+'\',\''+${goods.goodsName}+'\',\''+${goods.brandNo}+'\',\''+${goods.categoryId}+'\',\''+${goods.title}+'\',\''+${goods.goodsDesc}+'\',\''+${goods.picPath}+'\',\''+${goods.status}+'\');'"><i class="fa fa-edit"></i> </span>
+						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delGoods(\''+${goods.goodsId}+'\',\''+${goods.goodsNo}+'\');'"><i class="fa fa-trash-o"></i> </span>
                   	</div>
                   </td>
                 </tr>
@@ -500,10 +500,10 @@ function getDataList(brandNo,categoryId) {
             var dataString = "<option value=''>请选择</option>";
             for(var i=0;i<data.length;i++){
                 var brand = data[i];
-                if(brand.brand_no == brandNo){
-                    dataString+="<option selected='selected' value='"+brand.brand_no+"'>"+brand.brand_name+"</option>";
+                if(brand.brandNo == brandNo){
+                    dataString+="<option selected='selected' value='"+brand.brandNo+"'>"+brand.brandName+"</option>";
 				}else{
-                    dataString+="<option value='"+brand.brand_no+"'>"+brand.brand_name+"</option>";
+                    dataString+="<option value='"+brand.brandNo+"'>"+brand.brandName+"</option>";
 				}
             }
             $("#brand_name").html(dataString);
@@ -519,10 +519,10 @@ function getDataList(brandNo,categoryId) {
             var dataString = "<option value=''>请选择</option>";
             for(var i=0;i<data.length;i++){
                 var category = data[i];
-                if(category.category_id == categoryId){
-                    dataString+="<option selected='selected' value='"+category.category_id+"'>"+category.category_name+"</option>";
+                if(category.categoryId == categoryId){
+                    dataString+="<option selected='selected' value='"+category.categoryId+"'>"+category.categoryName+"</option>";
             	}else {
-                    dataString+="<option value='"+category.category_id+"'>"+category.category_name+"</option>";
+                    dataString+="<option value='"+category.categoryId+"'>"+category.categoryName+"</option>";
 				}
             }
             $("#category_name").html(dataString);
@@ -551,8 +551,8 @@ function closeImageViewer(){
 }
 
 $('[name="status"]').bootstrapSwitch({
-    onText:"启用",
-    offText:"停用",
+    onText:"上架",
+    offText:"下架",
     onColor:"success",//(info/success/warning/danger/primary)
     offColor:"danger",//(info/success/warning/danger/primary)
     size:"small",//(mini/small/normal/large)
@@ -560,10 +560,8 @@ $('[name="status"]').bootstrapSwitch({
     onSwitchChange:function(event,state){
         if(state==true){
             $(this).val("1");
-            // console.log("启用");
         }else{
             $(this).val("2");
-            // console.log("停用");
         }
     }
 })

@@ -119,14 +119,14 @@ div.cbp label.font{
                 <tr th:if="${QX.query == '1'}" th:each="category,stat :${categoryList}">
                   <td th:text="${stat.count}">1</td>
                   <!--<td th:text="${category.category_id}">品类ID</td>-->
-                  <td th:text="${category.category_name}">品类名称</td>
-                  <td th:text="${category.create_time}">创建时间</td>
-                  <td th:text="${category.update_time}">更新时间</td>
+                  <td th:text="${category.categoryName}">品类名称</td>
+                  <td th:text="${{category.createTime}}">创建时间</td>
+                  <td th:text="${{category.updateTime}}">更新时间</td>
                   <td th:text="${category.username}">最后操作人</td>
                   <td>
                   	<div>
-						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editCategory(\''+${category.category_id}+'\',\''+${category.category_name}+'\');'"><i class="fa fa-edit"></i> </span>
-						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delCategory(\''+${category.category_id}+'\');'"><i class="fa fa-trash-o"></i> </span>
+						<span data-toggle="tooltip" title="编辑" th:if="${QX.edit == '1'}" class="btn btn-xs btn-info" th:onclick="'editCategory(\''+${category.categoryId}+'\',\''+${category.categoryName}+'\');'"><i class="fa fa-edit"></i> </span>
+						<span data-toggle="tooltip" title="删除" th:if="${QX.del == '1'}" class="btn btn-xs btn-danger" th:onclick="'delCategory(\''+${category.categoryId}+'\');'"><i class="fa fa-trash-o"></i> </span>
                   	</div>
                   </td>
                 </tr>
@@ -222,8 +222,11 @@ $(function(){
 			url:url,
 			cache:false,
 			dataType:"json",
-			data:{categoryId:categoryId,categoryName:categoryName,status:0,time:new Date().getTime()},
-			success:function(data){
+			data:{categoryId:categoryId,categoryName:categoryName,time:new Date().getTime()},
+            // contentType:"application/json",
+            // data:JSON.stringify({categoryId:categoryId,categoryName:categoryName,status:0,time:new Date().getTime()}),
+
+            success:function(data){
 				if(data.status == 'success'){
 					$("#categoryModal").modal("hide");
 					window.location.href=window.location.href;

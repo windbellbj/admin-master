@@ -63,8 +63,8 @@
 		<!--通用Mapper-->
 		<dependency>
 			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper</artifactId>
-			<version>3.3.9</version>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
 		</dependency>
 
 		<dependency>
@@ -109,6 +109,8 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.3</version>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -116,6 +118,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

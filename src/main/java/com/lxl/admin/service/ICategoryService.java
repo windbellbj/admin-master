@@ -1,5 +1,6 @@
 package com.lxl.admin.service;
 
+import com.lxl.admin.entity.Category;
 import com.lxl.admin.util.ParameterMap;
 import org.springframework.stereotype.Component;
 

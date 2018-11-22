@@ -24,20 +24,20 @@
         category.category_id as categoryId,
         category.category_name as categoryName,
         category.status,
-        category.create_time as creatiTime,
+        category.create_time as createTime,
         category.update_time as updateTime,
         category.user_id as userId,
         sys_user.username
     </sql>
     <select id="getCategoryList" resultType="pm">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List_java"/>
         FROM
         category ,sys_user where sys_user.user_id = category.user_id AND category.status != #{status}
     </select>
     <select id="getCategoryListByOpen" resultType="pm">
         SELECT
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List_java"/>
         FROM
         category ,sys_user where sys_user.user_id = category.user_id AND category.status = #{status}
     </select>
